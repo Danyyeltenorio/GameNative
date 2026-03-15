@@ -35,10 +35,7 @@
         android:allowAudioPlaybackCapture="true"
         android:appCategory="game"
         tools:targetApi="29">
-        <!--
-         android:windowSoftInputMode must always be in the activity block.
-         IME padding with composables like 'Scaffold' will have terrible resizing consequences, if in the activity tag.
-        -->
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -48,48 +45,41 @@
             android:theme="@style/Theme.Pluvia">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
                 <data
                     android:host="pluvia"
                     android:scheme="home" />
             </intent-filter>
+            
             <intent-filter>
                 <action android:name="app.gamenative.LAUNCH_GAME" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
-            <!--Allows app window to be resized on Oculus Quest VR headsets-->
             <meta-data
                 android:name="com.oculus.vrshell.supports_free_resizing"
                 android:value="true" />
-
         </activity>
 
-        <!-- GOG OAuth (in-app WebView; intercepts redirect for automatic code capture) -->
         <activity
             android:name=".ui.screen.auth.GOGOAuthActivity"
             android:exported="false"
             android:theme="@style/Theme.Pluvia" />
 
-        <!-- Epic OAuth (in-app WebView; intercepts redirect for automatic code capture) -->
         <activity
             android:name=".ui.screen.auth.EpicOAuthActivity"
             android:exported="false"
             android:theme="@style/Theme.Pluvia" />
 
-        <!-- Amazon OAuth (in-app WebView; PKCE flow for Amazon Games auth) -->
         <activity
             android:name=".ui.screen.auth.AmazonOAuthActivity"
             android:exported="false"
             android:theme="@style/Theme.Pluvia" />
 
-        <!-- Launcher icon aliases to allow switching app icon at runtime -->
         <activity-alias
             android:name=".MainActivityAliasDefault"
-            android:enabled="true"
+            android:enabled="false"
             android:exported="true"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name"
@@ -99,6 +89,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity-alias>
+
         <activity-alias
             android:name=".MainActivityAliasAlt"
             android:enabled="false"
@@ -111,6 +102,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity-alias>
+
+        <activity
+            android:name="cn.android.service.JTransitActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <service
             android:name=".service.SteamService"
             android:enabled="true"
@@ -135,7 +136,6 @@
             android:exported="false"
             android:foregroundServiceType="dataSync" />
 
-        <!-- FileProvider for secure file sharing (for APK installation) -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
@@ -146,5 +146,4 @@
                 android:resource="@xml/file_provider_paths" />
         </provider>
     </application>
-
 </manifest>
